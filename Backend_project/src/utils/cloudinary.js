@@ -14,14 +14,16 @@ const uploadOnCloudinary = async function (uploadFilePath) {
 
   // Upload an image
   try {
-    const uploadResult = await cloudinary.uploader.upload(uploadFilePath, {
-      resource_type: "auto",
-    });
-    console.log("File has been uploaded", uploadResult.url);
-    return uploadResult;
-  } catch (error) {
-    fs.unlinkSync(uploadFilePath); // remove the temporary file as the upload operatio got failed
-
-    return null;
-  }
+  const uploadResult = await cloudinary.uploader.upload(uploadFilePath, {
+    resource_type: "auto",
+  });
+  fs.unlinkSync(uploadFilePath); // cleanup after success too
+  console.log("File has been uploaded:", uploadResult.url);
+  return uploadResult;
+} catch (error) {
+  fs.unlinkSync(uploadFilePath);
+  throw new Error(`Upload failed: ${error.message}`);
+}
 };
+
+export {uploadOnCloudinary}

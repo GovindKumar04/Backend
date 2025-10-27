@@ -1,13 +1,14 @@
-import dotenv from "dotenv";
-dotenv.config();
-import { connectDB } from "./db/db.js";
+import "./config/envConfig.js";
+
+import { connectDB } from "./config/db.js";
 import {app} from "./app.js"
 
 
-const port = process.env.PORT
+const port = process.env.PORT || 8000
 connectDB()
 .then(() => {
-    app.listen(port || 8000,()=>{
+    app.listen(port,()=>{
+        console.log(process.env.CLOUDINARY_CLOUD_NAME)
         console.log(`App is listening at port: ${port}`)
     })
     
