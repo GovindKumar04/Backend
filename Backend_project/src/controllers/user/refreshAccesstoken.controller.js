@@ -1,6 +1,6 @@
-import { User } from "../model/user.model";
-import { ApiError } from "../utils/ApiErrors";
-import { asyncHandler } from "../utils/asyncHandler";
+import { User } from "../../model/user.model";
+import { ApiError } from "../../utils/ApiErrors";
+import { asyncHandler } from "../../utils/asyncHandler";
 import jwt from "jsonwebtoken";
 
 export const refreshAccessToken = asyncHandler(async (req, res, next) => {

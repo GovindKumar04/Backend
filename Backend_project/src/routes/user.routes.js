@@ -1,8 +1,8 @@
 import {Router} from "express"
 
-import {signUpUser} from "../controllers/userSignup.controller.js";
-import {signInUser} from "../controllers/userSignIn.controller.js";
-import { signOutUser } from "../controllers/userSignOut.controllers.js";
+import {signUpUser} from "../controllers/user/userSignup.controller.js";
+import {signInUser} from "../controllers/user/userSignIn.controller.js";
+import { signOutUser } from "../controllers/user/userSignOut.controllers.js";
 
 import {fileUpload} from "../middlewares/multer.middleware.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js";

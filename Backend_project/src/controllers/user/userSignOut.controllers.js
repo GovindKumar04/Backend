@@ -1,6 +1,6 @@
-import { User } from "../model/user.model.js";
-import { ApiResponse } from "../utils/ApiResponse.js";
-import { asyncHandler } from "../utils/asyncHandler.js"
+import { User } from "../../model/user.model.js";
+import { ApiResponse } from "../../utils/ApiResponse.js";
+import { asyncHandler } from "../../utils/asyncHandler.js"
 
 
 export const signOutUser = asyncHandler(async (req, res, next) => {
