@@ -8,7 +8,6 @@ const port = process.env.PORT || 8000
 connectDB()
 .then(() => {
     app.listen(port,()=>{
-        console.log(process.env.CLOUDINARY_CLOUD_NAME)
         console.log(`App is listening at port: ${port}`)
     })
     

@@ -4,7 +4,7 @@ import { User } from "../model/user.model.js";
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
-const registerUser = asyncHandler(async (req, res) => {
+export const signUpUser = asyncHandler(async (req, res) => {
   // get user detail
   // validate user detail
   // check if user already exist
@@ -15,7 +15,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // cheack for user creation
   // return response.
   const { username, email, fullname, password } = req.body;
-
+  console.table([username,email,fullname,password])
   if (
     [username, email, fullname, password].some((field) => field?.trim() === "")
   ) {
@@ -25,9 +25,10 @@ const registerUser = asyncHandler(async (req, res) => {
   const existingUser = await User.findOne({ $or: [{ email }, { username }] });
 
   if (existingUser) {
+    console.log(1);
     throw new ApiError(409, "User email or username already exists!!");
   }
-
+  console.log(req.files);
   const avatarPath = await req.files?.avatar[0]?.path;
   const coverImagePath = await req.files?.coverImage[0]?.path;
 
@@ -45,17 +46,17 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const user = await User.create({
     fullname,
-    username,
+    username: username.toLowerCase(),
     avatar: avatar.url,
     coverImage: coverImage?.url || "",
     email,
     password,
-    username: username.toLowerCase(),
   });
-
+  console.log(user)
   return res
     .status(201)
     .json(new ApiResponse(201, user, "User created succesfully"));
 });
 
-export { registerUser };
+
+

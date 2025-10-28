@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
-
 const userSchema = new mongoose.Schema(
   {
     username: {
@@ -19,6 +18,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       lowercase: true,
       trim: true,
+      match: [/.+\@.+\..+/, "Please enter a valid email address"]
     },
     fullname: {
       type: String,
@@ -59,14 +59,14 @@ userSchema.methods.isPasswordCorrect = async function (password) {
 };
 
 userSchema.methods.toJSON = function () {
-  const user=this.toObject();
+  const user = this.toObject();
   delete user.password;
   delete user.refreshToken;
   return user;
-}
+};
 
-userSchema.methods.genrateAccessToken = function () {
-  jwt.sign(
+userSchema.methods.generateAccessToken = function () {
+  return jwt.sign(
     {
       _id: this.id,
       email: this.email,
@@ -74,11 +74,11 @@ userSchema.methods.genrateAccessToken = function () {
       fullname: this.fullname,
     },
     process.env.ACCESS_TOKEN_SECRET,
-    {expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN}
+    { expiresIn: process.env.ACCESS_TOKEN_EXPIRES_IN }
   );
 };
-userSchema.methods.genrateRefreshToken = function () {
-  jwt.sign(
+userSchema.methods.generateRefreshToken = function () {
+  return jwt.sign(
     {
       _id: this.id,
       email: this.email,
@@ -86,7 +86,7 @@ userSchema.methods.genrateRefreshToken = function () {
       fullname: this.fullname,
     },
     process.env.REFRESH_TOKEN_SECRET,
-    {expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN}
+    { expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN }
   );
 };
 export const User = mongoose.model("User", userSchema);
