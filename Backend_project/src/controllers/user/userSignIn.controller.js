@@ -2,7 +2,7 @@ import { asyncHandler } from "../../utils/asyncHandler.js";
 import { ApiError } from "../../utils/ApiErrors.js";
 import { User } from "../../model/user.model.js";
 import { ApiResponse } from "../../utils/ApiResponse.js";
-
+import { option } from "../../utils/httpSecure.js";
 
 
 const signInUser = asyncHandler(async (req, res, next) => {
@@ -34,21 +34,12 @@ const signInUser = asyncHandler(async (req, res, next) => {
   user.refreshToken = refreshToken;
   user.refreshToken = refreshToken;
   await user.save({ validateBeforeSave: false });
-  const option={
-    httpOnly: true,
-    secure: true,
-  }
-  const tokenOptions = {
-  httpOnly: true, //Blocks JS access to cookie
-  secure: true, //Sends cookie only via HTTPS
-  //sameSite: "strict",  //Blocks cookies on cross-site requests wich includes localhost
-};
-
+  
 // Set cookies first
 res
   .status(200)
-  .cookie("accessToken", accessToken, tokenOptions)
-  .cookie("refreshToken", refreshToken, tokenOptions)
+  .cookie("accessToken", accessToken, option)
+  .cookie("refreshToken", refreshToken, option)
   .json(
     new ApiResponse(200, {
       user,
@@ -58,7 +49,6 @@ res
       },
     }, "Login successful")
   );
-
 });
 
 export {signInUser };
