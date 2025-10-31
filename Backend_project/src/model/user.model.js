@@ -65,6 +65,7 @@ userSchema.methods.toJSON = function () {
   return user;
 };
 
+
 userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
