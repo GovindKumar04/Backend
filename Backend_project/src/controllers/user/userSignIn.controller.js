@@ -51,4 +51,7 @@ res
   );
 });
 
+const getCurrentUser = asyncHandler((req,res) => {
+  return res.status(200).json(200, req.user, "Current user fetched succesfully")
+})
 export {signInUser };
